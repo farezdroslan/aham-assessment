@@ -16,7 +16,7 @@ class Fund(models.Model):
     Represents an investment fund in the database.
     """
     fund_id = models.AutoField(primary_key=True)  # Unique identifier for the fund
-    fund_name = models.CharField(max_length=255, null=False, blank=False)  # Name of the fund
+    fund_name = models.CharField(max_length=255, null=False, blank=False, unique=True)  # Name of the fund
     # fund_manager_name = models.CharField(max_length=255, null=False, blank=False)  # Name of the fund manager
     fund_manager = models.ForeignKey(Manager, on_delete=models.CASCADE, related_name='funds', null=True, blank=True)  # Foreign key to Manager
     fund_description = models.TextField(null=False, blank=False)  # Description of the fund

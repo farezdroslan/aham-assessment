@@ -1,5 +1,7 @@
+from decimal import Decimal
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Manager(models.Model):
@@ -20,7 +22,13 @@ class Fund(models.Model):
     # fund_manager_name = models.CharField(max_length=255, null=False, blank=False)  # Name of the fund manager
     fund_manager = models.ForeignKey(Manager, on_delete=models.CASCADE, related_name='funds', null=True, blank=True)  # Foreign key to Manager
     fund_description = models.TextField(null=False, blank=False)  # Description of the fund
-    nav = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)  # Net Asset Value (NAV)
+    nav = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        null=False, 
+        blank=False,
+        validators=[MinValueValidator(Decimal('0.01'))]  # Ensure NAV is positive
+        )  # Net Asset Value (NAV)
     date_of_creation = models.DateField(default=timezone.now)  # Date when the fund was created
     performance = models.DecimalField(max_digits=5, decimal_places=2, null=False, blank=False)  # Performance as a percentage
 

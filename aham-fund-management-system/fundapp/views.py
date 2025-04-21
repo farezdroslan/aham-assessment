@@ -69,7 +69,7 @@ def fund_detail(request, pk):
         if manager_id and not Manager.objects.filter(manager_id=manager_id).exists():
             return Response({"error": "Invalid manager_id provided."}, status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = FundSerializer(fund, data=request.data)
+        serializer = FundSerializer(fund, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
